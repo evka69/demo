@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="slider-container mb-5">
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="{% static 'images/slide1.jpg' %}" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+            <img src="{% static 'images/slide2.jpg' %}" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+            <img src="{% static 'images/slide3.jpg' %}" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+            <img src="{% static 'images/slide4.jpg' %}" style="width:100%">
+        </div>
+
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+    <br>
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+    </div>
+</div>
+
+<div class="welcome-section text-center mb-4">
+    <h2>Добро пожаловать, {{ user.userprofile.full_name }}</h2>
+    <p class="text-muted">Ваши заявки на бронирование помещений</p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">История заявок</h4>
+            </div>
+            <div class="card-body">
+                {% if bookings %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Тип помещения</th>
+                                    <th>Дата конференции</th>
+                                    <th>Способ оплаты</th>
+                                    <th>Статус</th>
+                                    <th>Отзыв</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in bookings %}
+                                <tr>
+                                    <td>{{ booking.get_room_type_display }}</td>
+                                    <td>{{ booking.conference_date|date:"d.m.Y H:i" }}</td>
+                                    <td>{{ booking.get_payment_method_display }}</td>
+                                    <td>
+                                        {% if booking.status == 'new' %}
+                                            <span class="badge bg-warning">Новая</span>
+                                        {% elif booking.status == 'scheduled' %}
+                                            <span class="badge bg-success">Мероприятие назначено</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Мероприятие завершено</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if booking.status == 'completed' %}
+                                            {% if booking.review %}
+                                                <button class="btn btn-sm btn-outline-info" onclick="showReview('{{ booking.review|escapejs }}')">
+                                                    Просмотр
+                                                </button>
+                                            {% else %}
+                                                <a href="{% url 'submit_review' booking.id %}" class="btn btn-sm btn-outline-primary">
+                                                    Оставить отзыв
+                                                </a>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-muted">Отзыв после завершения</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <p>У вас пока нет заявок</p>
+                        <a href="{% url 'create_booking' %}" class="btn btn-primary">Создать первую заявку</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="target-audience mt-5">
+    <h3 class="text-center mb-4">Для организаторов конференций</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="feature-box text-center p-4">
+                <h4>3 типа помещений</h4>
+                <p>Аудитории, коворкинги и кинозалы для мероприятий любого масштаба</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature-box text-center p-4">
+                <h4>Удобное бронирование</h4>
+                <p>Выбирайте дату и время онлайн, получайте подтверждение от администратора</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="reviewModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4>Ваш отзыв</h4>
+            <span class="close" onclick="closeReviewModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p id="reviewText"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeReviewModal()">Закрыть</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

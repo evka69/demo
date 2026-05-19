@@ -102,7 +102,7 @@ def submit_review_view(request, booking_id):
 
 
 def is_admin_user(user):
-    return user.username == 'admin26' and user.is_authenticated
+    return user.username == 'Admin26' and user.is_authenticated
 
 
 @user_passes_test(is_admin_user)
