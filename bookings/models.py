@@ -24,9 +24,9 @@ class Booking(models.Model):
     ]
 
     PAYMENT_CHOICES = [
-        ('cash', 'Наличные'),
-        ('card', 'Банковская карта'),
-        ('transfer', 'Безналичный перевод'),
+        ('cash', 'Постоплата в офисе организации'),
+        ('card', 'Оплата картой МИР'),
+        ('transfer', 'Предоплата по QR-коду'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')

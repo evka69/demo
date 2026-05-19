@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('room_type', models.CharField(choices=[('auditorium', 'Аудитория'), ('coworking', 'Коворкинг'), ('cinema', 'Кинозал')], max_length=20)),
                 ('conference_date', models.DateTimeField()),
-                ('payment_method', models.CharField(choices=[('cash', 'Наличные'), ('card', 'Банковская карта'), ('transfer', 'Безналичный перевод')], max_length=20)),
+                ('payment_method', models.CharField(choices=[('cash', 'Постоплата в офисе организации'), ('card', 'Банковская карта'), ('transfer', 'Предоплата по QR-коду')], max_length=20)),
                 ('status', models.CharField(choices=[('new', 'Новая'), ('scheduled', 'Мероприятие назначено'), ('completed', 'Мероприятие завершено')], default='new', max_length=20)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('review', models.TextField(blank=True, null=True)),

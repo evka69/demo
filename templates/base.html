@@ -32,7 +32,7 @@
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard' %}">Главная</a>
+                            <a class="nav-link" href="{% url 'dashboard' %}">Личный кабинет</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'create_booking' %}">Новая заявка</a>
@@ -53,20 +53,36 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-        {% block content %}
-        {% endblock %}
+     <div class="content-wrapper">
+        <div class="container mt-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
 </body>
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="footer-text mb-2">Наше местонахождение</p>
+                    <p class="footer-text mb-1">Адрес головного офиса: г. Москва, ул. Большая Ордынка, д. 15</p>
+                    <p class="footer-text mb-1">Телефон горячей линии: +7 (495) 123-45-67</p>
+                    <p class="footer-note mt-3">Если возникли вопросы или пожелания, позвоните нам. Ответим оперативно и подробно.</p>
+                    <hr class="footer-hr">
+                    <p class="copyright mb-0">© 2025 Портал конференций РФ. Все права защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </html>
